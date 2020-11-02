@@ -1,0 +1,14 @@
+﻿生成启动时间为 2020/10/22 6:55:28。
+     1>项目“E:\QFProject\HeightWeight\HeightWeight\HeightWeight\HeightWeight.vcxproj”在节点 2 上(Build 个目标)。
+     1>Build:
+         "C:\Program Files (x86)\Sysprogs\VisualGDB\\VisualGDB.exe" /build "E:\QFProject\HeightWeight\HeightWeight\HeightWeight\HeightWeight.vcxproj" "/solution:E:\QFProject\HeightWeight\HeightWeight\HeightWeight.sln"  "/config:Debug" "/platform:Win32"
+         VisualGDB: Run "C:\SysGCC\arm-eabi\bin\make.exe  CONFIG=Debug -j8" in directory "E:\QFProject\HeightWeight\HeightWeight\HeightWeight" on local computer
+         make: Nothing to be done for `all'.
+         ------------------- Memory utilization report -------------------
+         Used FLASH: 33KB out of 128KB (25%)
+         Used SRAM: 15KB out of 20KB (78%)
+     1>已完成生成项目“E:\QFProject\HeightWeight\HeightWeight\HeightWeight\HeightWeight.vcxproj”(Build 个目标)的操作。
+
+生成成功。
+
+已用时间 00:00:01.72
