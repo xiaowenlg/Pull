@@ -64,6 +64,8 @@ uint32_t Weight_Skin = 0;
 uint16_t Skin_arr[2] = {0};   //毛皮重量数组，为存到mcuflash中
 uint32_t Pull_arr[50] = {0};		//拉力测量值数组
 uint8_t	pi = 0;
+uint8_t no_grip_k = 10; //提示握住用的计次变量
+double  Grip_Res = 0;//存储计数完的握力
 //flash中
 uint32_t Weight_flash = 0;
 uint16_t Weight_flash_array[2] = {0};
@@ -218,6 +220,7 @@ void SensorDrive_CallBack(void const *argument)             //传感器操作线程----
 	{
 		if (Key1_flag == 1) //开始播放标志
 		{
+			
 			//sound_weight = GetRealWeight(Weight_Skin);  //拉力检测
 			if (sound_weight>WEIGHT_MIN)     //大于阀值说明已经握住握力器，开始测试
 			{
@@ -254,7 +257,7 @@ void SensorDrive_CallBack(void const *argument)             //传感器操作线程----
 					{
 						//播放测试结果
 						//向握力器输出结果数据
-					
+						
 						printf("Time is outed :%dg\r\n", GetMax(Pull_arr, 50)); fflush(stdout);
 						//printf("average is %dg\r\n",Average_arr(Pull_arr, 50)); fflush(stdout);
 						ProcessGrip(3.141);//播放握力
@@ -265,11 +268,16 @@ void SensorDrive_CallBack(void const *argument)             //传感器操作线程----
 			}
 			else
 			{
-				if (no_grip_i++>NO_GRIP_NUM(10) / SENSOR_PERIOD)
+				//提示测试                      每20s提示一次，共提示2次
+				if (no_grip_i++>NO_GRIP_NUM(2) / SENSOR_PERIOD)
 				{
 					no_grip_i = 0;
-
-					WTN6040_PlayOneByte(QING_YONG_LI_WO);
+					if (no_grip_k<TIP_COUNT)
+					{
+						WTN6040_PlayOneByte(QING_YONG_LI_WO);
+						no_grip_k++;
+					}
+					
 				}
 			}
 
@@ -348,6 +356,7 @@ void  Key_CallBack(Key_Message index)
 		Uart_printf(&huart1, "*****************************\r\n");
 		pi = 0;
 		Key1_flag = 1;
+		no_grip_k = 0;  //提示于播放次数清零
 		
 		
 	}

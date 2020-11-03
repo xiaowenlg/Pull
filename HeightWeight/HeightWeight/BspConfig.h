@@ -74,6 +74,7 @@
 #define COUNT_DOWN				10							//倒计时10个数
 #define WEIGHT_MIN				1000						//最小开启的拉力值
 #define NO_GRIP_NUM(n)			n*1000						//n秒提示一次:"请用力握住握力器"
+#define TIP_COUNT				2							//提示次数
 //调试开关
 #define DEBUG_PRINT					1                                
 #endif // !__BSPCONFIG_H
