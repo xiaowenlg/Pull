@@ -66,6 +66,11 @@ uint32_t Pull_arr[50] = {0};		//拉力测量值数组
 uint8_t	pi = 0;
 uint8_t no_grip_k = 10; //提示握住用的计次变量
 double  Grip_Res = 0;//存储计数完的握力
+
+//发送到TFT屏的数据
+uint32_t TFT_Grip_Res = 0;		//显示计数后的最大值
+uint32_t TFT_Grip = 0;		//拉力时时值
+uint8_t  TFT_DownTime = 0; //显示倒计时
 //flash中
 uint32_t Weight_flash = 0;
 uint16_t Weight_flash_array[2] = {0};
@@ -224,9 +229,10 @@ void SensorDrive_CallBack(void const *argument)             //传感器操作线程----
 			//sound_weight = GetRealWeight(Weight_Skin);  //拉力检测
 			if (sound_weight>WEIGHT_MIN)     //大于阀值说明已经握住握力器，开始测试
 			{
-				if (pi < TEST_TIME_LONG(10) / SENSOR_PERIOD)  //循环100次
+				if (pi < TEST_TIME_LONG(10) / SENSOR_PERIOD)  //循环100次 取100次的值
 				{
 					//此处向串口屏输出握力时时数据
+					TFT_Grip = sound_weight;  //此处向串口屏输出握力时时数据
 					printf("PI is:%dg\r\n", pi); fflush(stdout);       
 					k = 0;
 					if (pi % 2)
@@ -245,7 +251,7 @@ void SensorDrive_CallBack(void const *argument)             //传感器操作线程----
 					{
 						j = 0;
 						m++;
-						//倒计时输出
+						TFT_DownTime = COUNT_DOWN - m;//倒计时输出到屏
 						printf("TFT num is ===============%d-----------------%d\r\n", COUNT_DOWN-m,m);//
 					}
 					pi++;
@@ -255,12 +261,13 @@ void SensorDrive_CallBack(void const *argument)             //传感器操作线程----
 				{
 					if (k <= 0)
 					{
-						//播放测试结果
-						//向握力器输出结果数据
 						
+						
+						TFT_Grip_Res = GetMax(Pull_arr, 50); //向TFT屏输出测试结果
+						Grip_Res = (double)TFT_Grip_Res; //取最大值
 						printf("Time is outed :%dg\r\n", GetMax(Pull_arr, 50)); fflush(stdout);
 						//printf("average is %dg\r\n",Average_arr(Pull_arr, 50)); fflush(stdout);
-						ProcessGrip(3.141);//播放握力
+						ProcessGrip(Grip_Res);//播放握力   //播放测试结果
 						k++;
 					}
 					//printf("PI_OUT is :%dg\r\n", pi); fflush(stdout);//必须刷新输出流**************************************
@@ -269,7 +276,7 @@ void SensorDrive_CallBack(void const *argument)             //传感器操作线程----
 			else
 			{
 				//提示测试                      每20s提示一次，共提示2次
-				if (no_grip_i++>NO_GRIP_NUM(2) / SENSOR_PERIOD)
+				if (no_grip_i++>NO_GRIP_NUM(5) / SENSOR_PERIOD)
 				{
 					no_grip_i = 0;
 					if (no_grip_k<TIP_COUNT)
