@@ -3,7 +3,7 @@
 #include "application.h"
 #include "BspConfig.h"
 
-uint8_t sonundArray[6] = { HUAN_YING, BEN_XIANG_MU, TI_ZHI_ZHI_SHU, CESHI, QING_ZHAN_LI};
+uint8_t sonundArray[6] = { HUAN_YING, BEN_XIANG_MU, WO_LI, CESHI, QING_YONG_LI_WO };
 //uint8_t dalaytim[4] = { 0xf3,YIN_XIAO_61,0xf8,10};				//F3H + µÿ÷∑ + F8H + 10H
 void Firstmuis()            //ø™Õ∑”Ô“Ù
 {
@@ -109,4 +109,15 @@ double Cal_BMI_TFT(uint32_t wi, uint16_t hi)
 	res = w / (h*h);
 	//uint16_t TFT_bmi = (uint16_t)(bmi_1 * 100);
 	return  res;
+}
+
+uint16_t Average_arr(uint32_t *arr, uint8_t len)
+{
+	uint8_t i = 0;
+	uint32_t sum = 0;
+	for (i = 0; i < len;i++)
+	{
+		sum += arr[i];
+	}
+	return sum / len;
 }

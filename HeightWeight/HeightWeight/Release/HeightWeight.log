@@ -1,23 +1,98 @@
-﻿生成启动时间为 2020/11/3 9:41:41。
-     1>项目“E:\QFProject\Pull\HeightWeight\HeightWeight\HeightWeight.vcxproj”在节点 2 上(Build 个目标)。
-     1>Build:
-         "C:\Program Files (x86)\Sysprogs\VisualGDB\\VisualGDB.exe" /build "E:\QFProject\Pull\HeightWeight\HeightWeight\HeightWeight.vcxproj" "/solution:E:\QFProject\Pull\HeightWeight\Pull.sln"  "/config:Release" "/platform:Win32"
-         VisualGDB: Run "C:\SysGCC\arm-eabi\bin\make.exe  CONFIG=Release -j8" in directory "E:\QFProject\Pull\HeightWeight\HeightWeight" on local computer
-         C:/SysGCC/arm-eabi/bin/arm-eabi-gcc.exe -ggdb -ffunction-sections -O3   -mcpu=cortex-m3 -mthumb -I..\..\Inc -I..\..\Drivers\CMSIS\Device\ST\STM32F1xx\Include -I..\..\Drivers\STM32F1xx_HAL_Driver\Inc -I..\..\Middlewares\Third_Party\FreeRTOS\Source\include -I..\..\Middlewares\Third_Party\FreeRTOS\Source\CMSIS_RTOS -I..\..\Middlewares\Third_Party\FreeRTOS\Source\portable\GCC\ARM_CM3 -I..\..\Drivers\STM32F1xx_HAL_Driver\Inc\Legacy -I..\..\Drivers\STM32F1xx_HAL_Driver\Src -I../../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../../Drivers/CMSIS/Include -I../../Drivers/CMSIS/RTOS/Template -I../../Drivers/STM32F1xx_HAL_Driver/Inc -I../../Inc -I../../Middlewares/Third_Party/FreeRTOS/Source/include -I../../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3 -I. -DNDEBUG=1 -DRELEASE=1 -Dflash_layout -DSTM32F103xB -DUSE_FREERTOS -DARM_MATH_CM3 -Dflash_layout -DSTM32F103CB  -c ../../Src/freertos.c -o Release/freertos.o -MD -MF Release/freertos.dep
-         E:\QFProject\Pull\HeightWeight\HeightWeight\..\..\Src\freertos.c(33):
-     1>E:\QFProject\Pull\HeightWeight\HeightWeight\..\..\Inc\stmflash.h(22): warning : "STM32_FLASH_BASE" redefined
-          #define STM32_FLASH_BASE 0x08000000  //STM32 FLASH的起始地址
-          
-         E:\QFProject\Pull\HeightWeight\HeightWeight\..\..\Inc\stmflash.h(15): note :  this is the location of the previous definition
-          #define STM32_FLASH_BASE   CHIP_START_ADDRESS   //起始地址
-          
-         C:/SysGCC/arm-eabi/bin/arm-eabi-g++.exe -o Release/HeightWeight.elf -Wl,-gc-sections --specs=nano.specs --specs=nosys.specs -TC:\Users\Administrator\AppData\Local\VisualGDB\EmbeddedBSPs\arm-eabi\com.sysprogs.arm.stm32\2019.06/STM32F1xxxx/LinkerScripts/STM32F103CB_flash.lds  -mcpu=cortex-m3 -mthumb   -Wl,--start-group Release/application.o Release/APPTooL.o Release/button.o Release/dwt_stm32_delay.o Release/gpio.o Release/adc.o Release/freertos.o Release/stmflash.o Release/tim.o Release/usart.o Release/stm32f1xx_it.o Release/stm32f1xx_hal_msp.o Release/main.o Release/system_stm32f1xx.o Release/stm32f1xx_hal.o Release/stm32f1xx_hal_adc.o Release/stm32f1xx_hal_adc_ex.o Release/croutine.o Release/event_groups.o Release/list.o Release/queue.o Release/tasks.o Release/timers.o Release/cmsis_os.o Release/heap_4.o Release/port.o Release/stm32f1xx_hal_rcc.o Release/stm32f1xx_hal_rcc_ex.o Release/stm32f1xx_hal_cortex.o Release/stm32f1xx_hal_tim.o Release/stm32f1xx_hal_tim_ex.o Release/stm32f1xx_hal_uart.o Release/stm32f1xx_hal_dma.o Release/stm32f1xx_hal_pwr.o Release/stm32f1xx_hal_flash.o Release/stm32f1xx_hal_flash_ex.o Release/stm32f1xx_hal_gpio.o Release/BspSound.o Release/ultrasonic.o Release/startup_stm32f103xb.o Release/stm32f1xx_hal_gpio_ex.o     -Wl,--end-group
-         C:/SysGCC/arm-eabi/bin/arm-eabi-objcopy.exe -O binary Release/HeightWeight.elf Release/HeightWeight.bin
-         ------------------- Memory utilization report -------------------
-         Used FLASH: 26KB out of 128KB (20%)
-         Used SRAM: 15KB out of 20KB (75%)
-     1>已完成生成项目“E:\QFProject\Pull\HeightWeight\HeightWeight\HeightWeight.vcxproj”(Build 个目标)的操作。
+﻿生成启动时间为 2020/11/3 14:11:28。
+     1>项目“E:\QFProject\Pull\HeightWeight\HeightWeight\HeightWeight.vcxproj”在节点 2 上(Clean 个目标)。
+     1>CoreClean:
+         "C:\Program Files (x86)\Sysprogs\VisualGDB\\VisualGDB.exe" /clean "E:\QFProject\Pull\HeightWeight\HeightWeight\HeightWeight.vcxproj" "/solution:E:\QFProject\Pull\HeightWeight\Pull.sln"  "/config:Release" "/platform:Win32"
+         VisualGDB: Run "C:\SysGCC\arm-eabi\bin\make.exe  CONFIG=Release clean -j8" in directory "E:\QFProject\Pull\HeightWeight\HeightWeight" on local computer
+         cmd /C del /S /Q Release
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\adc.dep
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\adc.o
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\application.dep
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\application.o
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\APPTooL.dep
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\APPTooL.o
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\BspSound.dep
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\BspSound.o
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\button.dep
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\button.o
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\cmsis_os.dep
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\cmsis_os.o
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\croutine.dep
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\croutine.o
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\dwt_stm32_delay.dep
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\dwt_stm32_delay.o
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\event_groups.dep
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\event_groups.o
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\freertos.dep
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\freertos.o
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\gpio.dep
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\gpio.o
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\heap_4.dep
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\heap_4.o
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\HeightWeight.bin
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\HeightWeight.elf
+         E:\QFProject\Pull\HeightWeight\HeightWeight\Release\HeightWeight.log
+         另一个程序正在使用此文件，进程无法访问。
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\HeightWeight.progstat
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\list.dep
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\list.o
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\main.dep
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\main.o
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\port.dep
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\port.o
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\queue.dep
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\queue.o
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\startup_stm32f103xb.dep
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\startup_stm32f103xb.o
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\stm32f1xx_hal.dep
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\stm32f1xx_hal.o
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\stm32f1xx_hal_adc.dep
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\stm32f1xx_hal_adc.o
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\stm32f1xx_hal_adc_ex.dep
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\stm32f1xx_hal_adc_ex.o
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\stm32f1xx_hal_cortex.dep
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\stm32f1xx_hal_cortex.o
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\stm32f1xx_hal_dma.dep
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\stm32f1xx_hal_dma.o
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\stm32f1xx_hal_flash.dep
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\stm32f1xx_hal_flash.o
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\stm32f1xx_hal_flash_ex.dep
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\stm32f1xx_hal_flash_ex.o
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\stm32f1xx_hal_gpio.dep
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\stm32f1xx_hal_gpio.o
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\stm32f1xx_hal_gpio_ex.dep
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\stm32f1xx_hal_gpio_ex.o
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\stm32f1xx_hal_msp.dep
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\stm32f1xx_hal_msp.o
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\stm32f1xx_hal_pwr.dep
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\stm32f1xx_hal_pwr.o
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\stm32f1xx_hal_rcc.dep
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\stm32f1xx_hal_rcc.o
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\stm32f1xx_hal_rcc_ex.dep
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\stm32f1xx_hal_rcc_ex.o
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\stm32f1xx_hal_tim.dep
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\stm32f1xx_hal_tim.o
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\stm32f1xx_hal_tim_ex.dep
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\stm32f1xx_hal_tim_ex.o
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\stm32f1xx_hal_uart.dep
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\stm32f1xx_hal_uart.o
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\stm32f1xx_it.dep
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\stm32f1xx_it.o
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\stmflash.dep
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\stmflash.o
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\system_stm32f1xx.dep
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\system_stm32f1xx.o
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\tasks.dep
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\tasks.o
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\tim.dep
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\tim.o
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\timers.dep
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\timers.o
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\ultrasonic.dep
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\ultrasonic.o
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\usart.dep
+         删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\usart.o
+     1>已完成生成项目“E:\QFProject\Pull\HeightWeight\HeightWeight\HeightWeight.vcxproj”(Clean 个目标)的操作。
 
 生成成功。
 
-已用时间 00:00:01.98
+已用时间 00:00:01.61

@@ -63,11 +63,15 @@
 #define QING_YONG_LI_WO				38						//请用力握住握力器
 
 //音量值
-#define SOUND_VALUE					0xEF                   //音量       0xe0-----0xef
+#define SOUND_VALUE					0xE1                  //音量       0xe0-----0xef
 //TFT屏
 #define TFT_VARIABLE_START		0x0001      //TFT屏变量起始地址
 #define TFT_BUTTON				0x4F		//TFT屏上的按钮
 
+#define TEST_TIME_LONG(n)		n*1000						//检测时长单位s	
+#define SENSOR_PERIOD			100							//传感器检测周期
+
+#define COUNT_DOWN				10							//倒计时10个数
 //调试开关
 #define DEBUG_PRINT					1                                
 #endif // !__BSPCONFIG_H

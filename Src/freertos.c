@@ -35,6 +35,7 @@
 #include "application.h"
 #include "BspSound.h"
 #include "adc.h"
+#include "APPTooL.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -208,39 +209,64 @@ void SensorDrive_CallBack(void const *argument)             //传感器操作线程----
 {
 	WTN6040_PlayOneByte(SOUND_VALUE);//调节音量
 	//Firstmuis();					//播放开始音乐
-	uint8_t i = 0;
+	uint8_t i = 0;   
+	uint8_t k = 0;
+	uint8_t j = 0 , m = 0;//
 	pi = 101;
 	for (;;)
 	{
-		//if (Key1_flag==1)
-		if (pi <=100 )
+		if (Key1_flag == 1) //开始播放标志
 		{
-			printf("PI is:%dg\r\n", pi); fflush(stdout);
-			if (pi % 2)
+			//sound_weight = GetRealWeight(Weight_Skin);
+			if (pi < TEST_TIME_LONG(10) / SENSOR_PERIOD)  //循环100次
 			{
-				if (i<50)
+				//此处向串口屏输出握力时时数据
+				printf("PI is:%dg\r\n", pi); fflush(stdout);       
+				k = 0;
+				if (pi % 2)
 				{
-					Pull_arr[i] = pi;
-					i++;
+					if (i < 50)
+					{
+						Pull_arr[i] = pi;   //50次数据存储
+						i++;
+					}
+					else
+					{
+						i = 0;
+					}
+
+
 				}
-				else
+				if (j++ > 8) //0~9
 				{
-					i = 0;
+					j = 0;
+					m++;
+					//倒计时输出
+					printf("TFT num is ===============%d-----------------%d\r\n", COUNT_DOWN-m,m);//
 				}
-				
-				
+				pi++;
+
 			}
-			pi++;
+			else
+			{
+				if (k <= 0)
+				{
+					//播放测试结果
+					//向握力器输出结果数据
+					
+					printf("Time is outed :%dg\r\n", GetMax(Pull_arr, 50)); fflush(stdout);
+					printf("average is %dg\r\n",Average_arr(Pull_arr, 50)); fflush(stdout);
+					k++;
+				}
+				//printf("PI_OUT is :%dg\r\n", pi); fflush(stdout);//必须刷新输出流**************************************
+			}
 		}
-		else
-		{
-			//printf("PI_OUT is :%dg\r\n", pi); fflush(stdout);//必须刷新输出流**************************************
-		}
+		
+		
 		//sound_weight = GetRealWeight(Weight_Skin);
-		sound_weight = GetRealWeight(Weight_Skin);
-	    printf("PI_OUT is :%dg\r\n", sound_weight); fflush(stdout);//必须刷新输出流**************************************
+	  // printf("PI_OUT is :%dg\r\n", sound_weight); fflush(stdout);//必须刷新输出流**************************************
 		HAL_GPIO_TogglePin(LED_LEFT_PORT, LED_LEFT_PIN);//线程活动指示灯
-		osDelay(100);
+		osDelay(SENSOR_PERIOD);                                                             //周期T=100ms 频率F = 10Hz
 	}
 }
 void  ButtonProcess_CallBack(void const *argument)
@@ -288,22 +314,25 @@ void  Key_CallBack(Key_Message index)
 
 	if (index.GPIO_Pin == WEIGHT_RES_Pin) //秤重清零
 	{
-		
-		//pi = 0;
-		Weight_Skin = GetRealWeight(0);
-		Skin_arr[0] = Weight_Skin & 0x0000ffff;
-		Skin_arr[1] = Weight_Skin >> 16;
-		STMFLASH_Write(FLASH_BEGIN, Skin_arr, 2);//把清零数据存储到flash中
+		Uart_printf(&huart1, "*****************************\r\n");
+		pi = 0;
+		Key1_flag = 1;
+		//WTN6040_PlayOneByte(QING_AN_KAISHI);
+		//
+		//Weight_Skin = GetRealWeight(0);
+		//Skin_arr[0] = Weight_Skin & 0x0000ffff;
+		//Skin_arr[1] = Weight_Skin >> 16;
+		//STMFLASH_Write(FLASH_BEGIN, Skin_arr, 2);//把清零数据存储到flash中
 	}
 	if (index.GPIO_Pin==DISTANCE_RES_Pin) //距离清零
 	{
-		//Uartx_printf(&huart1, "*****************************\r\n");
+		Uartx_printf(&huart1, "*****************************\r\n");
 		//pi = 0;
 	}
 	if (index.GPIO_Pin==KEY1_Pin)
 	{
 		//Uartx_printf(&huart1, "*****************************\r\n");
-		tip_flag = 1;
+		
 		BeginSound();
 		osDelay(2000);//等待数据稳定
 		if (abs(sound_weight) > 200)                                   //大于0.2公斤才播放

@@ -532,3 +532,33 @@ uint16_t ConsumeHeat(float weight, float tim, float v)
 {
 	return (uint16_t)((3 * weight * tim * v * 10) / 40);
 }
+
+//返回数组中最大值的位置
+int GetMax_index(int *arr, int len)
+{
+	int res = arr[0];
+	int index = 0;
+	for (int i = 0; i < len; i++)
+	{
+		if (arr[i]>res)
+		{
+			res = arr[i];
+			index = i;
+		}
+	}
+	return index;
+}
+//返回数组中最大值的位置
+int GetMax(int *arr, int len)
+{
+	int res = arr[0];
+	for (int i = 0; i < len; i++)
+	{
+		if (arr[i]>res)
+		{
+			res = arr[i];
+			//index = i;
+		}
+	}
+	return res;
+}
