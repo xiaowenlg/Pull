@@ -1,4 +1,4 @@
-﻿生成启动时间为 2020/11/2 19:44:41。
+﻿生成启动时间为 2020/11/3 9:41:41。
      1>项目“E:\QFProject\Pull\HeightWeight\HeightWeight\HeightWeight.vcxproj”在节点 2 上(Build 个目标)。
      1>Build:
          "C:\Program Files (x86)\Sysprogs\VisualGDB\\VisualGDB.exe" /build "E:\QFProject\Pull\HeightWeight\HeightWeight\HeightWeight.vcxproj" "/solution:E:\QFProject\Pull\HeightWeight\Pull.sln"  "/config:Release" "/platform:Win32"
@@ -14,10 +14,10 @@
          C:/SysGCC/arm-eabi/bin/arm-eabi-g++.exe -o Release/HeightWeight.elf -Wl,-gc-sections --specs=nano.specs --specs=nosys.specs -TC:\Users\Administrator\AppData\Local\VisualGDB\EmbeddedBSPs\arm-eabi\com.sysprogs.arm.stm32\2019.06/STM32F1xxxx/LinkerScripts/STM32F103CB_flash.lds  -mcpu=cortex-m3 -mthumb   -Wl,--start-group Release/application.o Release/APPTooL.o Release/button.o Release/dwt_stm32_delay.o Release/gpio.o Release/adc.o Release/freertos.o Release/stmflash.o Release/tim.o Release/usart.o Release/stm32f1xx_it.o Release/stm32f1xx_hal_msp.o Release/main.o Release/system_stm32f1xx.o Release/stm32f1xx_hal.o Release/stm32f1xx_hal_adc.o Release/stm32f1xx_hal_adc_ex.o Release/croutine.o Release/event_groups.o Release/list.o Release/queue.o Release/tasks.o Release/timers.o Release/cmsis_os.o Release/heap_4.o Release/port.o Release/stm32f1xx_hal_rcc.o Release/stm32f1xx_hal_rcc_ex.o Release/stm32f1xx_hal_cortex.o Release/stm32f1xx_hal_tim.o Release/stm32f1xx_hal_tim_ex.o Release/stm32f1xx_hal_uart.o Release/stm32f1xx_hal_dma.o Release/stm32f1xx_hal_pwr.o Release/stm32f1xx_hal_flash.o Release/stm32f1xx_hal_flash_ex.o Release/stm32f1xx_hal_gpio.o Release/BspSound.o Release/ultrasonic.o Release/startup_stm32f103xb.o Release/stm32f1xx_hal_gpio_ex.o     -Wl,--end-group
          C:/SysGCC/arm-eabi/bin/arm-eabi-objcopy.exe -O binary Release/HeightWeight.elf Release/HeightWeight.bin
          ------------------- Memory utilization report -------------------
-         Used FLASH: 24KB out of 128KB (19%)
-         Used SRAM: 13KB out of 20KB (69%)
+         Used FLASH: 26KB out of 128KB (20%)
+         Used SRAM: 15KB out of 20KB (75%)
      1>已完成生成项目“E:\QFProject\Pull\HeightWeight\HeightWeight\HeightWeight.vcxproj”(Build 个目标)的操作。
 
 生成成功。
 
-已用时间 00:00:02.02
+已用时间 00:00:01.98

@@ -206,7 +206,7 @@ void StartDefaultTask(void const * argument)
 
 void SensorDrive_CallBack(void const *argument)             //传感器操作线程---------拉力检测
 {
-	//WTN6040_PlayOneByte(SOUND_VALUE);//调节音量
+	WTN6040_PlayOneByte(SOUND_VALUE);//调节音量
 	//Firstmuis();					//播放开始音乐
 	uint8_t i = 0;
 	pi = 101;
@@ -237,7 +237,8 @@ void SensorDrive_CallBack(void const *argument)             //传感器操作线程----
 			//printf("PI_OUT is :%dg\r\n", pi); fflush(stdout);//必须刷新输出流**************************************
 		}
 		//sound_weight = GetRealWeight(Weight_Skin);
-		
+		sound_weight = GetRealWeight(Weight_Skin);
+	    printf("PI_OUT is :%dg\r\n", sound_weight); fflush(stdout);//必须刷新输出流**************************************
 		HAL_GPIO_TogglePin(LED_LEFT_PORT, LED_LEFT_PIN);//线程活动指示灯
 		osDelay(100);
 	}
@@ -288,11 +289,11 @@ void  Key_CallBack(Key_Message index)
 	if (index.GPIO_Pin == WEIGHT_RES_Pin) //秤重清零
 	{
 		
-		pi = 0;
-		//Weight_Skin = GetRealWeight(0);
-		//Skin_arr[0] = Weight_Skin & 0x0000ffff;
-		//Skin_arr[1] = Weight_Skin >> 16;
-		//STMFLASH_Write(FLASH_BEGIN, Skin_arr, 2);//把清零数据存储到flash中
+		//pi = 0;
+		Weight_Skin = GetRealWeight(0);
+		Skin_arr[0] = Weight_Skin & 0x0000ffff;
+		Skin_arr[1] = Weight_Skin >> 16;
+		STMFLASH_Write(FLASH_BEGIN, Skin_arr, 2);//把清零数据存储到flash中
 	}
 	if (index.GPIO_Pin==DISTANCE_RES_Pin) //距离清零
 	{

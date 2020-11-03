@@ -27,7 +27,7 @@
 //#define  P_DATA_2A               PBout(12) //数据输出（位带操作）
 
 
-#define DIV 220              //比例因子
+#define DIV 1431              //比例因子
 #define ERROR		23     //误差调节   +1表示向上加10g 反之表示向下减10g
 #define WEIGHT_MAX	4294967
 
@@ -59,6 +59,8 @@
 #define PIAN_SHOU					51						//偏瘦
 #define ZHENG_CHANG					52						//正常
 #define HUAN_ZAI_CI_YING			57						//欢迎再次使用
+#define WO_LI						29						//握力
+#define QING_YONG_LI_WO				38						//请用力握住握力器
 
 //音量值
 #define SOUND_VALUE					0xEF                   //音量       0xe0-----0xef
