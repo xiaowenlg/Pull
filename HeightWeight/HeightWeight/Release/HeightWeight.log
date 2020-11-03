@@ -1,4 +1,4 @@
-﻿生成启动时间为 2020/11/3 14:11:28。
+﻿生成启动时间为 2020/11/3 14:44:14。
      1>项目“E:\QFProject\Pull\HeightWeight\HeightWeight\HeightWeight.vcxproj”在节点 2 上(Clean 个目标)。
      1>CoreClean:
          "C:\Program Files (x86)\Sysprogs\VisualGDB\\VisualGDB.exe" /clean "E:\QFProject\Pull\HeightWeight\HeightWeight\HeightWeight.vcxproj" "/solution:E:\QFProject\Pull\HeightWeight\Pull.sln"  "/config:Release" "/platform:Win32"
@@ -95,4 +95,4 @@
 
 生成成功。
 
-已用时间 00:00:01.61
+已用时间 00:00:01.62

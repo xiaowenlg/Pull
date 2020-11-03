@@ -217,7 +217,7 @@ void SensorDrive_CallBack(void const *argument)             //传感器操作线程----
 	{
 		if (Key1_flag == 1) //开始播放标志
 		{
-			//sound_weight = GetRealWeight(Weight_Skin);
+			//sound_weight = GetRealWeight(Weight_Skin);  //拉力检测
 			if (pi < TEST_TIME_LONG(10) / SENSOR_PERIOD)  //循环100次
 			{
 				//此处向串口屏输出握力时时数据
@@ -255,7 +255,8 @@ void SensorDrive_CallBack(void const *argument)             //传感器操作线程----
 					//向握力器输出结果数据
 					
 					printf("Time is outed :%dg\r\n", GetMax(Pull_arr, 50)); fflush(stdout);
-					printf("average is %dg\r\n",Average_arr(Pull_arr, 50)); fflush(stdout);
+					//printf("average is %dg\r\n",Average_arr(Pull_arr, 50)); fflush(stdout);
+					ProcessGrip(3.141);//播放握力
 					k++;
 				}
 				//printf("PI_OUT is :%dg\r\n", pi); fflush(stdout);//必须刷新输出流**************************************
@@ -314,9 +315,7 @@ void  Key_CallBack(Key_Message index)
 
 	if (index.GPIO_Pin == WEIGHT_RES_Pin) //秤重清零
 	{
-		Uart_printf(&huart1, "*****************************\r\n");
-		pi = 0;
-		Key1_flag = 1;
+		
 		//WTN6040_PlayOneByte(QING_AN_KAISHI);
 		//
 		//Weight_Skin = GetRealWeight(0);
@@ -334,17 +333,10 @@ void  Key_CallBack(Key_Message index)
 		//Uartx_printf(&huart1, "*****************************\r\n");
 		
 		BeginSound();
-		osDelay(2000);//等待数据稳定
-		if (abs(sound_weight) > 200)                                   //大于0.2公斤才播放
-		{
-			//PlayHei_Wei(Height_res / 10.00, abs(sound_weight) / 1000.00);
-		}
-		else
-		{
-			WTN6040_PlayOneByte(QING_ZHAN_LI);
-			osDelay(300);
-			WTN6040_PlayOneByte(QING_AN_KAISHI);
-		}
+		Uart_printf(&huart1, "*****************************\r\n");
+		pi = 0;
+		Key1_flag = 1;
+		
 		
 	}
 	//Uartx_printf(&huart1, "Key===%d\r\n", index);

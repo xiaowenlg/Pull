@@ -37,15 +37,16 @@ uint8_t ProcessHeight(double numdata)//身高
 	return reslen;
 }
 
-uint8_t ProcessWeight(double numdata)//体重
+uint8_t ProcessGrip(double numdata)//握持力
 {
 	uint8_t dat[16] = { 0 };
 	uint8_t reslen = 0, templen = 0;
 	uint8_t tdat[16] = { 0 };
 	templen = DataSeparation(numdata, tdat);
-	dat[0] = TI_ZHONG;
-	dat[1] = GONG_JIN;
-	reslen = insertArray(dat, 2, tdat, templen, 1);
+	dat[0] = NINDE;
+	dat[1] = WO_LI;
+	dat[2] = GONG_JIN;
+	reslen = insertArray(dat,3, tdat, templen, 2);
 	WTN6040_PlayArray(reslen, dat);
 	return reslen;
 }
