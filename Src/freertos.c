@@ -81,6 +81,9 @@ uint32_t sound_weight = 0;
 uint16_t tip_play_num = 0;   //提示计数
 uint8_t  tip_flag = 0;		//提示标志
 uint8_t  clear_num = 0;
+
+//互斥量
+extern SemaphoreHandle_t xSemaphore_WTN6_TFT;//串口，语音播放互斥量
 //线程句柄
 osThreadId SensorDriveHandle;//传感器驱动线程
 osThreadId ButtonProcessHandle;//按键处理线程
@@ -217,6 +220,8 @@ void SensorDrive_CallBack(void const *argument)             //传感器操作线程----
 {
 	WTN6040_PlayOneByte(SOUND_VALUE);//调节音量
 	//Firstmuis();					//播放开始音乐
+	write_variable_store_82_1word(TFT_RES_VAL_ADRESS, 0);//发送测试结果
+	write_variable_store_82_1word(TFT_INSTANTANEOUS_FORCE_ADRESS, 0);
 	uint8_t i = 0;   
 	uint8_t k = 0;
 	uint8_t j = 0;//
@@ -231,12 +236,19 @@ void SensorDrive_CallBack(void const *argument)             //传感器操作线程----
 			//printf("PI is:%dg\r\n", sound_weight); fflush(stdout);
 			if (sound_weight>WEIGHT_MIN)     //大于阀值说明已经握住握力器，开始测试
 			{
+				write_variable_store_82_1word(TFT_TEST_ERROR_ADRESS, 0);
 				no_grip_i = 0;
 				if (pi < TEST_TIME_LONG(10) / SENSOR_PERIOD)  //循环100次 取100次的值
 				{
 					//此处向串口屏输出握力时时数据
 					TFT_Grip = sound_weight;  //此处向串口屏输出握力时时数据
 					printf("PI is:%dg\r\n", TFT_Grip); fflush(stdout);
+					xSemaphoreTake(xSemaphore_WTN6_TFT, portMAX_DELAY);
+					{
+						write_variable_store_82_1word(TFT_INSTANTANEOUS_FORCE_ADRESS, TFT_Grip / 100); //发送数据到TFT       发送瞬时值
+					}
+					xSemaphoreGive(xSemaphore_WTN6_TFT);
+					
 					k = 0;
 					if (pi % 2)
 					{
@@ -255,6 +267,12 @@ void SensorDrive_CallBack(void const *argument)             //传感器操作线程----
 						j = 0;
 						back_tim++;
 						TFT_DownTime = COUNT_DOWN - back_tim;//倒计时输出到屏
+						xSemaphoreTake(xSemaphore_WTN6_TFT, portMAX_DELAY);
+						{
+							write_variable_store_82_1word(TFT_BACK_TIM_ADRESS, TFT_DownTime);//发送倒计时
+						}
+						xSemaphoreGive(xSemaphore_WTN6_TFT);
+						
 						printf("TFT num is ===============%d-----------------%d\r\n", COUNT_DOWN-back_tim,back_tim);//
 					}
 					pi++;
@@ -264,13 +282,20 @@ void SensorDrive_CallBack(void const *argument)             //传感器操作线程----
 				{      
 					if (k <= 0)
 					{
+						xSemaphoreTake(xSemaphore_WTN6_TFT, portMAX_DELAY);
+						{
+							write_variable_store_82_1word(TFT_START_GIT_ADRESS, 0); //关闭测试开始动画
+							TFT_Grip_Res = GetMax(Pull_arr, 50); //向TFT屏输出测试结果
+							write_variable_store_82_1word(TFT_RES_VAL_ADRESS, TFT_Grip_Res / 100);//发送测试结果
+							Grip_Res = (double)TFT_Grip_Res / 1000; //取最大值
+							printf("Time is outed :%dg\r\n", GetMax(Pull_arr, 50)); fflush(stdout);
+							//printf("average is %dg\r\n",Average_arr(Pull_arr, 50)); fflush(stdout);
+							write_variable_store_82_1word(TFT_SPEAK_GIF_ADRESS, 1);  //喇叭动画开始
+							ProcessGrip(Grip_Res);//播放握力   //播放测试结果
+							write_variable_store_82_1word(TFT_SPEAK_GIF_ADRESS, 0);//喇叭动画结束
+						}
+						xSemaphoreGive(xSemaphore_WTN6_TFT);
 						
-						
-						TFT_Grip_Res = GetMax(Pull_arr, 50); //向TFT屏输出测试结果
-						Grip_Res = (double)TFT_Grip_Res/1000; //取最大值
-						printf("Time is outed :%dg\r\n", GetMax(Pull_arr, 50)); fflush(stdout);
-						//printf("average is %dg\r\n",Average_arr(Pull_arr, 50)); fflush(stdout);
-						ProcessGrip(Grip_Res);//播放握力   //播放测试结果
 						Key1_flag = 0;
 						k++;
 					}
@@ -286,6 +311,7 @@ void SensorDrive_CallBack(void const *argument)             //传感器操作线程----
 					if (no_grip_k<TIP_COUNT)
 					{
 						WTN6040_PlayOneByte(QING_YONG_LI_WO);
+						write_variable_store_82_1word(TFT_TEST_ERROR_ADRESS, 1);
 						no_grip_k++;
 					}
 					
@@ -303,13 +329,22 @@ void SensorDrive_CallBack(void const *argument)             //传感器操作线程----
 }
 void  ButtonProcess_CallBack(void const *argument)
 {
-	
+	uint16_t battery_i = 0;
 	for (;;)
 	{
 	
 		ScanKeys(&KeyValue_t, &lastvalue_t, keys, Key_CallBack);
 		HAL_GPIO_TogglePin(LED_RITHT_PORT, LED_RIGHT_PIN);                  //线程活动指示灯
-	
+		if (battery_i++>TEST_TIME_LONG(1) / BUTTON_SCAN_CYCLE)
+		{
+			battery_i = 0;
+			xSemaphoreTake(xSemaphore_WTN6_TFT, portMAX_DELAY);
+			{
+				write_variable_store_82_1word(TFT_BATTERY_GIT_ADRESS, ADC_GetValue(&hadc1, 10));//向TFT屏传输电量数据
+			}
+			xSemaphoreGive(xSemaphore_WTN6_TFT);
+
+		}
 		///Uart_printf(&huart1, "Task2\r\n");
 		osDelay(BUTTON_SCAN_CYCLE);
 
@@ -362,7 +397,12 @@ void  Key_CallBack(Key_Message index)
 	if (index.GPIO_Pin==KEY1_Pin)
 	{
 		//Uartx_printf(&huart1, "*****************************\r\n");
-		
+		write_register_80_1byte(TFT_BUTTON, 1);//开屏
+		write_variable_store_82_1word(TFT_START_GIT_ADRESS, 1);//测试开始动画开始播放
+		write_variable_store_82_1word(TFT_TEST_ERROR_ADRESS, 0);//关闭错误动画
+		write_variable_store_82_1word(TFT_RES_VAL_ADRESS, 0);//发送测试结果
+		write_variable_store_82_1word(TFT_INSTANTANEOUS_FORCE_ADRESS, 0);
+		write_variable_store_82_1word(TFT_BACK_TIM_ADRESS, 10);//发送倒计时
 		BeginSound();
 		Uart_printf(&huart1, "*****************************\r\n");
 		pi = 0;

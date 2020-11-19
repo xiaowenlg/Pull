@@ -54,7 +54,7 @@
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
-
+SemaphoreHandle_t xSemaphore_WTN6_TFT;
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
@@ -97,7 +97,7 @@ int main(void)
 
   /* Configure the system clock */
   SystemClock_Config();
-
+  xSemaphore_WTN6_TFT = xSemaphoreCreateMutex();//创建互斥量
   /* USER CODE BEGIN SysInit */
   DWT_Delay_Init();//微秒定时初始化
   Hx711_Sck_Out(); //称重传感器初始化

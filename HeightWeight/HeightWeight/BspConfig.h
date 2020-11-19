@@ -67,7 +67,15 @@
 //TFT屏
 #define TFT_VARIABLE_START		0x0001      //TFT屏变量起始地址
 #define TFT_BUTTON				0x4F		//TFT屏上的按钮
-
+//显示数据地址
+#define TFT_INSTANTANEOUS_FORCE_ADRESS		0x0001			//瞬时力
+#define TFT_SPEAK_GIF_ADRESS				0x0002			//喇叭动画	
+#define TFT_START_GIT_ADRESS				0x0004			//测试开始动画
+#define TFT_BATTERY_GIT_ADRESS				0x0003			//电池图标
+#define TFT_RES_VAL_ADRESS					0x0005			//测试结果
+#define TFT_BACK_TIM_ADRESS					0x0006			//倒计时值
+#define TFT_TEST_ERROR_ADRESS				0x0007			//检测出错
+					
 #define TEST_TIME_LONG(n)		n*1000						//检测时长单位s	
 #define SENSOR_PERIOD			100							//传感器检测周期
 
