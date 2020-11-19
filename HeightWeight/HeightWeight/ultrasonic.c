@@ -98,7 +98,8 @@ uint32_t GetRealWeight(unsigned long skin)
 	uint32_t res_temp = 0,res = 0;
 	uint8_t i = 0;
 	val = Read_Weigh(1000);
-	res_temp = (val / DIV-6059)*10 - skin;
+	val = val / 100;
+	res_temp = (val / DIV - ERROR) - skin;
 	
 	/*if (abs(res_temp) < 30000)
 	{

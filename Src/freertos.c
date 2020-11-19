@@ -58,7 +58,7 @@
 //按键用变量
 uint16_t KeyValue_t = 0xffff; uint16_t lastvalue_t = 0xffff;
 Key_Message keys[5] = { 0 };
-uint8_t Key1_flag = 0;
+uint8_t Key1_flag = 0;  //按键按下标志
 //毛坯重量
 uint32_t Weight_Skin = 0;
 uint16_t Skin_arr[2] = {0};   //毛皮重量数组，为存到mcuflash中
@@ -71,6 +71,7 @@ double  Grip_Res = 0;//存储计数完的握力
 uint32_t TFT_Grip_Res = 0;		//显示计数后的最大值
 uint32_t TFT_Grip = 0;		//拉力时时值
 uint8_t  TFT_DownTime = 0; //显示倒计时
+uint8_t  back_tim = 0;
 //flash中
 uint32_t Weight_flash = 0;
 uint16_t Weight_flash_array[2] = {0};
@@ -218,7 +219,7 @@ void SensorDrive_CallBack(void const *argument)             //传感器操作线程----
 	//Firstmuis();					//播放开始音乐
 	uint8_t i = 0;   
 	uint8_t k = 0;
-	uint8_t j = 0 , m = 0;//
+	uint8_t j = 0;//
 	uint8_t no_grip_i = 0;
 	pi = 101;
 	for (;;)
@@ -226,20 +227,22 @@ void SensorDrive_CallBack(void const *argument)             //传感器操作线程----
 		if (Key1_flag == 1) //开始播放标志
 		{
 			
-			//sound_weight = GetRealWeight(Weight_Skin);  //拉力检测
+			sound_weight = GetRealWeight(Weight_Skin);  //拉力检测
+			//printf("PI is:%dg\r\n", sound_weight); fflush(stdout);
 			if (sound_weight>WEIGHT_MIN)     //大于阀值说明已经握住握力器，开始测试
 			{
+				no_grip_i = 0;
 				if (pi < TEST_TIME_LONG(10) / SENSOR_PERIOD)  //循环100次 取100次的值
 				{
 					//此处向串口屏输出握力时时数据
 					TFT_Grip = sound_weight;  //此处向串口屏输出握力时时数据
-					printf("PI is:%dg\r\n", pi); fflush(stdout);       
+					printf("PI is:%dg\r\n", TFT_Grip); fflush(stdout);
 					k = 0;
 					if (pi % 2)
 					{
 						if (i < 50)
 						{
-							Pull_arr[i] = pi;   //50次数据存储
+							Pull_arr[i] = TFT_Grip;   //50次数据存储
 							i++;
 						}
 						else
@@ -250,24 +253,25 @@ void SensorDrive_CallBack(void const *argument)             //传感器操作线程----
 					if (j++ > 8) //0~9
 					{
 						j = 0;
-						m++;
-						TFT_DownTime = COUNT_DOWN - m;//倒计时输出到屏
-						printf("TFT num is ===============%d-----------------%d\r\n", COUNT_DOWN-m,m);//
+						back_tim++;
+						TFT_DownTime = COUNT_DOWN - back_tim;//倒计时输出到屏
+						printf("TFT num is ===============%d-----------------%d\r\n", COUNT_DOWN-back_tim,back_tim);//
 					}
 					pi++;
 
 				}
-				else
-				{
+				else       //测试结束代码
+				{      
 					if (k <= 0)
 					{
 						
 						
 						TFT_Grip_Res = GetMax(Pull_arr, 50); //向TFT屏输出测试结果
-						Grip_Res = (double)TFT_Grip_Res; //取最大值
+						Grip_Res = (double)TFT_Grip_Res/1000; //取最大值
 						printf("Time is outed :%dg\r\n", GetMax(Pull_arr, 50)); fflush(stdout);
 						//printf("average is %dg\r\n",Average_arr(Pull_arr, 50)); fflush(stdout);
 						ProcessGrip(Grip_Res);//播放握力   //播放测试结果
+						Key1_flag = 0;
 						k++;
 					}
 					//printf("PI_OUT is :%dg\r\n", pi); fflush(stdout);//必须刷新输出流**************************************
@@ -275,7 +279,7 @@ void SensorDrive_CallBack(void const *argument)             //传感器操作线程----
 			}
 			else
 			{
-				//提示测试                      每20s提示一次，共提示2次
+				//力度不够或没有抓握提示                     每20s提示一次，共提示2次
 				if (no_grip_i++>NO_GRIP_NUM(5) / SENSOR_PERIOD)
 				{
 					no_grip_i = 0;
@@ -342,13 +346,13 @@ void  Key_CallBack(Key_Message index)
 
 	if (index.GPIO_Pin == WEIGHT_RES_Pin) //秤重清零
 	{
-		sound_weight = 1001;
+		//sound_weight = 1001;
 		//WTN6040_PlayOneByte(QING_AN_KAISHI);
 		//
-		//Weight_Skin = GetRealWeight(0);
-		//Skin_arr[0] = Weight_Skin & 0x0000ffff;
-		//Skin_arr[1] = Weight_Skin >> 16;
-		//STMFLASH_Write(FLASH_BEGIN, Skin_arr, 2);//把清零数据存储到flash中
+		Weight_Skin = GetRealWeight(0);
+		Skin_arr[0] = Weight_Skin & 0x0000ffff;
+		Skin_arr[1] = Weight_Skin >> 16;
+		STMFLASH_Write(FLASH_BEGIN, Skin_arr, 2);//把清零数据存储到flash中
 	}
 	if (index.GPIO_Pin==DISTANCE_RES_Pin) //距离清零
 	{
@@ -364,7 +368,7 @@ void  Key_CallBack(Key_Message index)
 		pi = 0;
 		Key1_flag = 1;
 		no_grip_k = 0;  //提示于播放次数清零
-		
+		back_tim = 0;	//倒计时归零
 		
 	}
 	//Uartx_printf(&huart1, "Key===%d\r\n", index);

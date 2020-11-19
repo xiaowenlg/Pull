@@ -27,8 +27,8 @@
 //#define  P_DATA_2A               PBout(12) //数据输出（位带操作）
 
 
-#define DIV 1431              //比例因子
-#define ERROR		23     //误差调节   +1表示向上加10g 反之表示向下减10g
+#define DIV 0.3              //比例因子                     量程100KG             
+#define ERROR		279423     //误差调节  
 #define WEIGHT_MAX	4294967
 
 #define BUTTON_SCAN_CYCLE			50      //按键扫描周期

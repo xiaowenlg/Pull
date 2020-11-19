@@ -48,6 +48,8 @@ uint8_t ProcessGrip(double numdata)//Œ’≥÷¡¶
 	dat[2] = GONG_JIN;
 	reslen = insertArray(dat,3, tdat, templen, 2);
 	WTN6040_PlayArray(reslen, dat);
+	osDelay(200);
+	WTN6040_PlayOneByte(HUAN_ZAI_CI_YING);
 	return reslen;
 }
 
