@@ -409,6 +409,10 @@ void  Key_CallBack(Key_Message index)
 		Key1_flag = 1;
 		no_grip_k = 0;  //提示于播放次数清零
 		back_tim = 0;	//倒计时归零
+		for (uint8_t i = 0; i < 50;i++)   //数组清零
+		{
+			Pull_arr[i] = 0;
+		}
 		
 	}
 	//Uartx_printf(&huart1, "Key===%d\r\n", index);
