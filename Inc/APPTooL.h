@@ -27,5 +27,5 @@ int insertOneByte(uint8_t *arr, uint16_t arrlen, uint8_t indata, uint16_t pos);
 uint8_t StrJoin(char *mac, char*id, char *lastdata);
 uint16_t ConsumeHeat(float weight, float tim, float v);
 int GetMax_index(int *arr, int len);
-int GetMax(int *arr, int len);
+int GetMax(uint32_t *arr, uint16_t len);
 #endif // !_APPTOOL_H

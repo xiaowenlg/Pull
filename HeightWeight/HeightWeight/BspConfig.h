@@ -28,7 +28,7 @@
 
 
 #define DIV 0.3              //比例因子                     量程100KG             
-#define ERROR		279423     //误差调节  
+#define ERROR		279010     //误差调节279423  
 #define WEIGHT_MAX	4294967
 
 #define BUTTON_SCAN_CYCLE			50      //按键扫描周期

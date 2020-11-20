@@ -13,7 +13,7 @@
 //用户根据自己的需要设置
 #define STM32_FLASH_SIZE			CHIP_CAPACITY      //stm32flash 大小	
 #define STM32_FLASH_BASE			CHIP_START_ADDRESS   //起始地址
-#define FLASH_BEGIN_BASE(n)					STM32_FLASH_BASE+(STM32_FLASH_SIZE-n)*1024    //n为扇区个数           返回: EERPOM开始地址
+#define FLASH_BEGIN_BASE(n)			STM32_FLASH_BASE+(STM32_FLASH_SIZE-n)*1024    //n为扇区个数           返回: EERPOM开始地址
 #define FLASH_BEGIN                 FLASH_BEGIN_BASE(2)                                   //操作内存开始地址 倒数第二个地址段
 #define STM32_FLASH_WREN 1              //使能FLASH写入(0，不是能;1，使能)
 //////////////////////////////////////////////////////////////////////////////////////////////////////

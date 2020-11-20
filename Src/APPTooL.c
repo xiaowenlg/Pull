@@ -549,10 +549,10 @@ int GetMax_index(int *arr, int len)
 	return index;
 }
 //返回数组中最大值的位置
-int GetMax(int *arr, int len)
+int GetMax(uint32_t *arr, uint16_t len)
 {
 	int res = arr[0];
-	for (int i = 0; i < len; i++)
+	for (uint16_t i = 0; i < len; i++)
 	{
 		if (arr[i]>res)
 		{

@@ -98,8 +98,6 @@ void  ButtonProcess_CallBack(void const *argument);
 //按键回调函数
 void  Key_CallBack(Key_Message index);
 
-//向TFT屏发数据
-void SendMessageToTFT(uint16_t address);
 /* USER CODE END FunctionPrototypes */
 
 void StartDefaultTask(void const * argument);
@@ -233,7 +231,7 @@ void SensorDrive_CallBack(void const *argument)             //传感器操作线程----
 		{
 			
 			sound_weight = GetRealWeight(Weight_Skin);  //拉力检测
-			//printf("PI is:%dg\r\n", sound_weight); fflush(stdout);
+			printf("PI is:%dg\r\n", sound_weight); fflush(stdout);
 			if (sound_weight>WEIGHT_MIN)     //大于阀值说明已经握住握力器，开始测试
 			{
 				write_variable_store_82_1word(TFT_TEST_ERROR_ADRESS, 0);
@@ -273,7 +271,7 @@ void SensorDrive_CallBack(void const *argument)             //传感器操作线程----
 						}
 						xSemaphoreGive(xSemaphore_WTN6_TFT);
 						
-						printf("TFT num is ===============%d-----------------%d\r\n", COUNT_DOWN-back_tim,back_tim);//
+						//printf("TFT num is ===============%d-----------------%d\r\n", COUNT_DOWN-back_tim,back_tim);//
 					}
 					pi++;
 
@@ -391,7 +389,7 @@ void  Key_CallBack(Key_Message index)
 	}
 	if (index.GPIO_Pin==DISTANCE_RES_Pin) //距离清零
 	{
-		Uartx_printf(&huart1, "*****************************\r\n");
+		Uart_printf(&huart1, "000000000000000000000000000000\r\n");
 		//pi = 0;
 	}
 	if (index.GPIO_Pin==KEY1_Pin)
@@ -417,17 +415,7 @@ void  Key_CallBack(Key_Message index)
 	}
 	//Uartx_printf(&huart1, "Key===%d\r\n", index);
 }
-//向TFT屏发送数据
-void SendMessageToTFT(uint16_t address)
-{
-	uint16_t TFT_SendArray[4] = { 0 };
-	double bmires = 0.00;
-	uint16_t TFT_bmi = 0;
-	
-	TFT_SendArray[3] = ADC_GetValue(&hadc1, 10);			//电池电量
-	write_multiple_variable_store_82(address, 4, TFT_SendArray);
-	write_register_80_1byte(TFT_BUTTON, 1);
-}
+
 /* USER CODE END Application */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
