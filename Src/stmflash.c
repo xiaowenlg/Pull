@@ -119,6 +119,7 @@ void Test_Write(uint32_t WriteAddr,uint16_t WriteData)
 {
 	STMFLASH_Write(WriteAddr,&WriteData,1);//写入一个字 
 }
+/*
 //和printf一样可以用格式输出，如d%
 void STMFLASH_FormatWrite(uint32_t WriteAddr, uint16_t NumToWritechar ,char* fmt, ...)
 {
@@ -130,7 +131,7 @@ void STMFLASH_FormatWrite(uint32_t WriteAddr, uint16_t NumToWritechar ,char* fmt
 	STMFLASH_Write(WriteAddr, buffer, NumToWritechar);
 	va_end(arg_ptr);
 }
-
+*/
 
 
 

@@ -3,6 +3,7 @@
  * TFT屏和74HC595驱动
  * date 九月 2019
  */
+#include "FreeRTOS.h"
 #include "application.h"
 #include "system.h"
 #include "usart.h"
@@ -63,7 +64,7 @@ void SendData_595(uint16_t outdate)
 
 	}
 	RCK = 0;
-	osDelay(1);
+	HAL_Delay(1);
 	RCK = 1;
 
 }
@@ -172,7 +173,7 @@ void write_multiple_variable_store_82(uint16_t address, uint8_t data_length, uin
 	HAL_UART_Transmit(UART_TFT, array, nDataLen, 0xffff);
 }
 //WTN6040初始化
-uint8_t WTN6040_Gpio_Init()
+void WTN6040_Gpio_Init()
 {
 	GPIO_InitTypeDef GPIO_InitStruct = { 0 };
 	__HAL_RCC_GPIOB_CLK_ENABLE();
@@ -199,6 +200,7 @@ uint8_t  Line_2A_WTN6(uint8_t SB_DATA)
 	S_DATA = SB_DATA;
 	CLK_2A = 0;
 	osDelay(5);
+	//HAL_Delay(5);
 	B_DATA = S_DATA & 0X01;
 	//PBout(13) = 1;
 	for (j = 0; j < 8; j++)

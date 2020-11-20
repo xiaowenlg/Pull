@@ -33,7 +33,7 @@ void write_register_80_1byte(uint8_t address, uint8_t data);
 void write_multiple_register_80(uint8_t address, uint8_t data_length, uint8_t *data);
 void write_variable_store_82_1word(uint16_t address, uint16_t data);
 void write_multiple_variable_store_82(uint16_t address, uint8_t data_length, uint16_t *data);
-uint8_t WTN6040_Gpio_Init(); //ÓïÒôĞ¾Æ¬Òı½Å³õÊ¼»¯
+void WTN6040_Gpio_Init(); //ÓïÒôĞ¾Æ¬Òı½Å³õÊ¼»¯
 uint8_t Line_2A_WTN6(uint8_t SB_DATA);
 void TFT_playsound(uint8_t data_length, uint8_t *data, UART_HandleTypeDef *huart);
 void playmusic(uint16_t num, uint8_t val);

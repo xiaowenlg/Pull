@@ -231,7 +231,7 @@ void SensorDrive_CallBack(void const *argument)             //传感器操作线程----
 		{
 			
 			sound_weight = GetRealWeight(Weight_Skin);  //拉力检测
-			printf("PI is:%dg\r\n", sound_weight); fflush(stdout);
+			//printf("PI is:%dg\r\n", sound_weight); fflush(stdout);          //打印瞬时力**********************
 			if (sound_weight>WEIGHT_MIN)     //大于阀值说明已经握住握力器，开始测试
 			{
 				write_variable_store_82_1word(TFT_TEST_ERROR_ADRESS, 0);
@@ -240,7 +240,7 @@ void SensorDrive_CallBack(void const *argument)             //传感器操作线程----
 				{
 					//此处向串口屏输出握力时时数据
 					TFT_Grip = sound_weight;  //此处向串口屏输出握力时时数据
-					printf("PI is:%dg\r\n", TFT_Grip); fflush(stdout);
+					//printf("PI is:%dg\r\n", TFT_Grip); fflush(stdout);//打印及时握力************************
 					xSemaphoreTake(xSemaphore_WTN6_TFT, portMAX_DELAY);
 					{
 						write_variable_store_82_1word(TFT_INSTANTANEOUS_FORCE_ADRESS, TFT_Grip / 100); //发送数据到TFT       发送瞬时值
@@ -271,7 +271,7 @@ void SensorDrive_CallBack(void const *argument)             //传感器操作线程----
 						}
 						xSemaphoreGive(xSemaphore_WTN6_TFT);
 						
-						//printf("TFT num is ===============%d-----------------%d\r\n", COUNT_DOWN-back_tim,back_tim);//
+						//printf("TFT num is ===============%d-----------------%d\r\n", COUNT_DOWN-back_tim,back_tim);//打印倒计时，时间***********************
 					}
 					pi++;
 
@@ -286,7 +286,7 @@ void SensorDrive_CallBack(void const *argument)             //传感器操作线程----
 							TFT_Grip_Res = GetMax(Pull_arr, 50); //向TFT屏输出测试结果
 							write_variable_store_82_1word(TFT_RES_VAL_ADRESS, TFT_Grip_Res / 100);//发送测试结果
 							Grip_Res = (double)TFT_Grip_Res / 1000; //取最大值
-							printf("Time is outed :%dg\r\n", GetMax(Pull_arr, 50)); fflush(stdout);
+							//printf("Time is outed :%dg\r\n", GetMax(Pull_arr, 50)); fflush(stdout);//打印测试结果**********************
 							//printf("average is %dg\r\n",Average_arr(Pull_arr, 50)); fflush(stdout);
 							write_variable_store_82_1word(TFT_SPEAK_GIF_ADRESS, 1);  //喇叭动画开始
 							ProcessGrip(Grip_Res);//播放握力   //播放测试结果
@@ -402,7 +402,7 @@ void  Key_CallBack(Key_Message index)
 		write_variable_store_82_1word(TFT_INSTANTANEOUS_FORCE_ADRESS, 0);
 		write_variable_store_82_1word(TFT_BACK_TIM_ADRESS, 10);//发送倒计时
 		BeginSound();
-		Uart_printf(&huart1, "*****************************\r\n");
+		//Uart_printf(&huart1, "*****************************\r\n");           //按键按下测试*******************************
 		pi = 0;
 		Key1_flag = 1;
 		no_grip_k = 0;  //提示于播放次数清零

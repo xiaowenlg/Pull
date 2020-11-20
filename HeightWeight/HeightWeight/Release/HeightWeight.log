@@ -1,4 +1,4 @@
-﻿生成启动时间为 2020/11/20 14:05:08。
+﻿生成启动时间为 2020/11/20 14:45:38。
      1>项目“E:\QFProject\Pull\HeightWeight\HeightWeight\HeightWeight.vcxproj”在节点 2 上(Clean 个目标)。
      1>CoreClean:
          "C:\Program Files (x86)\Sysprogs\VisualGDB\\VisualGDB.exe" /clean "E:\QFProject\Pull\HeightWeight\HeightWeight\HeightWeight.vcxproj" "/solution:E:\QFProject\Pull\HeightWeight\Pull.sln"  "/config:Release" "/platform:Win32"
@@ -14,7 +14,6 @@
          删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\BspSound.o
          删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\button.dep
          删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\button.o
-         另一个程序正在使用此文件，进程无法访问。
          删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\cmsis_os.dep
          删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\cmsis_os.o
          删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\croutine.dep
@@ -32,6 +31,7 @@
          删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\HeightWeight.bin
          删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\HeightWeight.elf
          E:\QFProject\Pull\HeightWeight\HeightWeight\Release\HeightWeight.log
+         另一个程序正在使用此文件，进程无法访问。
          删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\HeightWeight.progstat
          删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\list.dep
          删除文件 - E:\QFProject\Pull\HeightWeight\HeightWeight\Release\list.o
@@ -95,4 +95,4 @@
 
 生成成功。
 
-已用时间 00:00:01.66
+已用时间 00:00:01.64

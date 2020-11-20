@@ -47,7 +47,6 @@ void Hx711_Sck_Out()
 
 	//数据引脚初始化
 	
-	return 0;
 }
 
 uint8_t is_ready() {

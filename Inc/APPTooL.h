@@ -28,4 +28,6 @@ uint8_t StrJoin(char *mac, char*id, char *lastdata);
 uint16_t ConsumeHeat(float weight, float tim, float v);
 int GetMax_index(int *arr, int len);
 int GetMax(uint32_t *arr, uint16_t len);
+uint8_t DataSeparation(double dat, uint8_t *res_dat);//数据转换成语音地址数组
+uint8_t GetTimData(uint32_t tdata, uint8_t *dat);//转换播放时间
 #endif // !_APPTOOL_H
