@@ -215,16 +215,23 @@ void StartDefaultTask(void const * argument)
 /* USER CODE BEGIN Application */
 
 void SensorDrive_CallBack(void const *argument)             //传感器操作线程---------拉力检测
-{
-	WTN6040_PlayOneByte(SOUND_VALUE,1000);//调节音量
-	Firstmuis();					//播放开始音乐
-	write_variable_store_82_1word(TFT_RES_VAL_ADRESS, 0);//发送测试结果
-	write_variable_store_82_1word(TFT_INSTANTANEOUS_FORCE_ADRESS, 0);
-	uint8_t i = 0;   
-	uint8_t k = 0;
-	uint8_t j = 0;//
-	uint8_t no_grip_i = 0;
+{ 
+	//变量声明
+	uint8_t i = 0;  //力值数组下标
+	uint8_t k = 0;	//控制播放力的数值的 次数        控制播放次数
+	uint8_t j = 0;//  倒计时计数
+	uint8_t no_grip_i = 0;     //力度不够提示用
 	pi = 101;
+	xSemaphoreTake(xSemaphore_WTN6_TFT, portMAX_DELAY);
+	{
+		WTN6040_PlayOneByte(SOUND_VALUE, 1000);//调节音量
+		HAL_Delay(20);
+		Firstmuis();					//播放开始音乐
+		write_variable_store_82_1word(TFT_RES_VAL_ADRESS, 0);//发送测试结果
+		write_variable_store_82_1word(TFT_INSTANTANEOUS_FORCE_ADRESS, 0);
+	}
+	xSemaphoreGive(xSemaphore_WTN6_TFT);
+
 	for (;;)
 	{
 		if (Key1_flag == 1) //开始播放标志

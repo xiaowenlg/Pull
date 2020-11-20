@@ -3,7 +3,7 @@
 #include "application.h"
 #include "BspConfig.h"
 #include "math.h"
-uint8_t sonundArray[6] = { HUAN_YING, BEN_XIANG_MU, WO_LI, CESHI, QING_YONG_LI_WO };
+uint8_t sonundArray[5] = { HUAN_YING, BEN_XIANG_MU, WO_LI, CESHI, QING_YONG_LI_WO };
 //uint8_t dalaytim[4] = { 0xf3,YIN_XIAO_61,0xf8,10};				//F3H + µÿ÷∑ + F8H + 10H
 void Firstmuis()            //ø™Õ∑”Ô“Ù
 {
