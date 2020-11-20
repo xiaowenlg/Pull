@@ -218,8 +218,8 @@ void StartDefaultTask(void const * argument)
 
 void SensorDrive_CallBack(void const *argument)             //传感器操作线程---------拉力检测
 {
-	WTN6040_PlayOneByte(SOUND_VALUE);//调节音量
-	//Firstmuis();					//播放开始音乐
+	WTN6040_PlayOneByte(SOUND_VALUE,1000);//调节音量
+	Firstmuis();					//播放开始音乐
 	write_variable_store_82_1word(TFT_RES_VAL_ADRESS, 0);//发送测试结果
 	write_variable_store_82_1word(TFT_INSTANTANEOUS_FORCE_ADRESS, 0);
 	uint8_t i = 0;   
@@ -310,7 +310,7 @@ void SensorDrive_CallBack(void const *argument)             //传感器操作线程----
 					no_grip_i = 0;
 					if (no_grip_k<TIP_COUNT)
 					{
-						WTN6040_PlayOneByte(QING_YONG_LI_WO);
+						WTN6040_PlayOneByte(QING_YONG_LI_WO,1000);
 						write_variable_store_82_1word(TFT_TEST_ERROR_ADRESS, 1);
 						no_grip_k++;
 					}

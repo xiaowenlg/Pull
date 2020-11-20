@@ -245,24 +245,51 @@ void TFT_playsound(uint8_t data_length, uint8_t *data, UART_HandleTypeDef *huart
 	MY_USART_SendData(huart, array, nDataLen);
 }
 #else
-void WTN6040_PlayOneByte(uint8_t val)
+///////////////////
+//************************************
+// 函数:    WTN6040_PlayOneByte
+// 函数全名:  WTN6040_PlayOneByte
+// 函数类型:    public 
+// 返回值:   void
+// Qualifier:
+// 参数: uint8_t val    播放地址
+// 参数: uint32_t timout   等待空闲信号时间，单位ms
+//************************************
+void WTN6040_PlayOneByte(uint8_t val, uint32_t timout)
 {
-	while (HAL_GPIO_ReadPin(WTN_GPIO_Port, WTN6040_BUSY_Pin) != 1);
+	long tim = HAL_GetTick();
+	while (HAL_GetTick() - tim < timout)
+	{
+		if (HAL_GPIO_ReadPin(WTN_GPIO_Port, WTN6040_BUSY_Pin) != 0)
+		{
+			break;
+		}
+	}
+	//while (HAL_GPIO_ReadPin(WTN6040_BUSY_GPIO_Port, WTN6040_BUSY_Pin) != 1);
 	Line_2A_WTN6(val);
-	
-	
+
+
 }
-uint8_t WTN6040_PlayArray(uint8_t arrlen, uint8_t *soundarr)
+uint8_t WTN6040_PlayArray(uint8_t arrlen, uint8_t *soundarr, uint32_t timout)
 {
 	uint8_t res = 0;
 	uint8_t i = 0;
+	long tim = HAL_GetTick();
 	for (i = 0; i < arrlen; i++)
 	{
-		WTN6040_PlayOneByte(soundarr[i]);
+		WTN6040_PlayOneByte(soundarr[i], timout);
 		//osDelay(10);
 		//Uart_printf(&DEBUG_UART.huart, "Data=========%d:%x\r\n", i, soundarr[i]);//测试播放数据
 	}
-	while (HAL_GPIO_ReadPin(WTN_GPIO_Port, WTN6040_BUSY_Pin) != 1);
+
+	while (HAL_GetTick() - tim < timout)
+	{
+		if (HAL_GPIO_ReadPin(WTN_GPIO_Port, WTN6040_BUSY_Pin) != 0)
+		{
+			break;
+		}
+	}
+	//while (HAL_GPIO_ReadPin(WTN6040_BUSY_GPIO_Port, WTN6040_BUSY_Pin) != 1);
 	if (i == arrlen)
 		res = 1;
 	else
@@ -270,19 +297,7 @@ uint8_t WTN6040_PlayArray(uint8_t arrlen, uint8_t *soundarr)
 	//Line_2A_WTN6(9);
 	return res;
 }
-uint8_t WTN6040_PlayArray_1(uint8_t arrlen, uint8_t *soundarr)
-{
-	uint8_t res = 0;
-	uint8_t i = 0;
-	for (i = 0; i < arrlen; i++)
-	{
-		WTN6040_PlayOneByte(soundarr[i]);
-		//osDelay(10);
-		//Uart_printf(&DEBUG_UART.huart, "Data=========%d:%x\r\n", i, soundarr[i]);//测试播放数据
-	}
-	
-	return res;
-}
+/////////////////////
 #endif
 //************************************
 // 函数:    playmusic

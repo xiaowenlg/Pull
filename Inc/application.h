@@ -46,7 +46,7 @@ void HMI_SetVal(UART_HandleTypeDef *huart, const char *com, uint32_t val);//发送
 void HMI_SetVal_t();//发送数据到HMI屏;
 void HMI_SetVal_t(UART_HandleTypeDef *huart, const char *com, uint32_t val);
 void HMI_SetTxt(UART_HandleTypeDef *huart, const char *com, char *txt);//发送数据字符串
-uint8_t WTN6040_PlayArray(uint8_t arrlen, uint8_t *soundarr);
+uint8_t WTN6040_PlayArray(uint8_t arrlen, uint8_t *soundarr, uint32_t timout);
 uint8_t WTN6040_PlayArray_1(uint8_t arrlen, uint8_t *soundarr);
-void WTN6040_PlayOneByte(uint8_t val);//播放单句
+void WTN6040_PlayOneByte(uint8_t val, uint32_t timout);//播放单句
 #endif

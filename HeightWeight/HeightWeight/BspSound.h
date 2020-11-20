@@ -12,4 +12,5 @@ double Cal_BMI(double hei, double wei); //身高/体重的平方;
 void PlayHei_Wei(double height, double wei);
 double Cal_BMI_TFT(uint32_t wi, uint16_t hi);
 uint16_t Average_arr(uint32_t *arr, uint8_t len);//求数组平均值
+uint8_t ProcessGrip(double numdata);//握持力
 #endif // !__BSPSOUND_H
