@@ -81,7 +81,8 @@ uint32_t sound_weight = 0;
 uint16_t tip_play_num = 0;   //提示计数
 uint8_t  tip_flag = 0;		//提示标志
 uint8_t  clear_num = 0;
-
+//按键两次按状态
+uint8_t key_state = 0;
 //互斥量
 extern SemaphoreHandle_t xSemaphore_WTN6_TFT;//串口，语音播放互斥量
 //线程句柄
@@ -396,7 +397,13 @@ void  Key_CallBack(Key_Message index)
 	}
 	if (index.GPIO_Pin==DISTANCE_RES_Pin) //距离清零
 	{
-		Uart_printf(&huart1, "000000000000000000000000000000\r\n");
+		key_state = ~key_state;
+		if (key_state)
+			Turen_Pic(2);
+		else
+		{
+			Turen_Pic(1);
+		}
 		//pi = 0;
 	}
 	if (index.GPIO_Pin==KEY1_Pin)
