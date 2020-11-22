@@ -75,6 +75,10 @@ uint8_t  back_tim = 0;
 //flash中
 uint32_t Weight_flash = 0;
 uint16_t Weight_flash_array[2] = {0};
+
+//用到设置界面的值
+uint32_t Weight_flash_2 = 0;
+uint16_t Weight_flash_array_2[2] = { 0 };
 //语音播报地址数组
 uint8_t height_array[16] = {0};
 uint32_t sound_weight = 0;
@@ -83,6 +87,8 @@ uint8_t  tip_flag = 0;		//提示标志
 uint8_t  clear_num = 0;
 //按键两次按状态
 uint8_t key_state = 0;
+uint8_t DebugKey_State = 0;      //调试按钮状态标志
+uint8_t	Debug_tim = 0;           //调试界面计数
 //互斥量
 extern SemaphoreHandle_t xSemaphore_WTN6_TFT;//串口，语音播放互斥量
 //线程句柄
@@ -228,13 +234,16 @@ void SensorDrive_CallBack(void const *argument)             //传感器操作线程----
 		WTN6040_PlayOneByte(SOUND_VALUE, 1000);//调节音量
 		HAL_Delay(20);
 		Firstmuis();					//播放开始音乐
-		write_variable_store_82_1word(TFT_RES_VAL_ADRESS, 0);//发送测试结果
+		Turen_Pic(1);					//显示界面1
+		//清零
+		write_variable_store_82_1word(TFT_RES_VAL_ADRESS, 0);//
 		write_variable_store_82_1word(TFT_INSTANTANEOUS_FORCE_ADRESS, 0);
 	}
 	xSemaphoreGive(xSemaphore_WTN6_TFT);
 
 	for (;;)
 	{
+		//数据显示界面运行===界面1
 		if (Key1_flag == 1) //开始播放标志
 		{
 			
@@ -325,8 +334,16 @@ void SensorDrive_CallBack(void const *argument)             //传感器操作线程----
 			}
 
 		}
-		
-		
+		//设置界面运行==界面2
+		if (DebugKey_State)
+		{
+			if (Debug_tim++>2)
+			{
+				Debug_tim = 0;
+				write_variable_store_82_1word(TFT_SENSOR_ADRESS, (uint16_t)GetRealWeight(Weight_Skin));//发送传感器值
+
+			}
+		}
 		//sound_weight = GetRealWeight(Weight_Skin);
 	  // printf("PI_OUT is :%dg\r\n", sound_weight); fflush(stdout);//必须刷新输出流**************************************
 		HAL_GPIO_TogglePin(LED_LEFT_PORT, LED_LEFT_PIN);//线程活动指示灯
@@ -390,25 +407,40 @@ void  Key_CallBack(Key_Message index)
 		//sound_weight = 1001;
 		//WTN6040_PlayOneByte(QING_AN_KAISHI);
 		//
+		write_register_80_1byte(TFT_BUTTON, 1);//开屏
 		Weight_Skin = GetRealWeight(0);
 		Skin_arr[0] = Weight_Skin & 0x0000ffff;
 		Skin_arr[1] = Weight_Skin >> 16;
 		STMFLASH_Write(FLASH_BEGIN, Skin_arr, 2);//把清零数据存储到flash中
+		write_variable_store_82_1word(TFT_SET_OVER_ADRESS, 1);//开设置完成动画
 	}
 	if (index.GPIO_Pin==DISTANCE_RES_Pin) //距离清零
 	{
+		write_register_80_1byte(TFT_BUTTON, 1);//开屏
 		key_state = ~key_state;
+		
 		if (key_state)
+		{
 			Turen_Pic(2);
+			DebugKey_State = 1;
+			//读内存中保存的设备自重
+			STMFLASH_Read(FLASH_BEGIN, Weight_flash_array_2, 2);
+			Weight_flash_2 = Weight_flash_array_2[1];
+			Weight_flash_2 = (Weight_flash_2 << 16) + Weight_flash_array_2[0];
+			write_variable_store_82_1word(TFT_EQUIPMENT_WEIGHT_ADRESS, Weight_flash_2);//发送传感器值
+		}	
 		else
 		{
 			Turen_Pic(1);
+			DebugKey_State = 0;
+			write_variable_store_82_1word(TFT_SET_OVER_ADRESS, 0);//开设置完成动画
 		}
 		//pi = 0;
 	}
 	if (index.GPIO_Pin==KEY1_Pin)
 	{
 		//Uartx_printf(&huart1, "*****************************\r\n");
+		Turen_Pic(1);//切换到界面1
 		write_register_80_1byte(TFT_BUTTON, 1);//开屏
 		write_variable_store_82_1word(TFT_START_GIT_ADRESS, 1);//测试开始动画开始播放
 		write_variable_store_82_1word(TFT_TEST_ERROR_ADRESS, 0);//关闭错误动画
@@ -421,6 +453,7 @@ void  Key_CallBack(Key_Message index)
 		Key1_flag = 1;
 		no_grip_k = 0;  //提示于播放次数清零
 		back_tim = 0;	//倒计时归零
+		DebugKey_State = 0; //清除界面2标志位
 		for (uint8_t i = 0; i < 50;i++)   //数组清零
 		{
 			Pull_arr[i] = 0;

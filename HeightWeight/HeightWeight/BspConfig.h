@@ -75,6 +75,10 @@
 #define TFT_RES_VAL_ADRESS					0x0005			//测试结果
 #define TFT_BACK_TIM_ADRESS					0x0006			//倒计时值
 #define TFT_TEST_ERROR_ADRESS				0x0007			//检测出错
+//调试界面地址
+#define TFT_SENSOR_ADRESS					0x0008			//传感器值
+#define TFT_EQUIPMENT_WEIGHT_ADRESS			0x0009			//设备自重
+#define TFT_SET_OVER_ADRESS					0x000A			//设置完成动画
 					
 #define TEST_TIME_LONG(n)		n*1000						//检测时长单位s	
 #define SENSOR_PERIOD			100							//传感器检测周期
